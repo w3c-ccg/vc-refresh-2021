@@ -499,12 +499,18 @@ Accept-Encoding: gzip, deflate
     ],
     "issuer": "https://example.edu/issuers/14",
     "issuanceDate": "2010-01-01T19:23:24Z",
+    "expirationDate": "2022-01-01T19:23:24Z",
     "credentialSubject": {
       "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
       "degree": {
         "type": "BachelorDegree",
         "name": "Bachelor of Science and Arts"
       }
+    },
+    "refreshService": {
+      "type": "AutoRefresh2021",
+      "url": "https://example.edu/workflows/refresh-degree",
+      "validAfter": "2021-09-01T19:23:24Z"
     },
     "proof": {
       "type": "Ed25519Signature2020",
@@ -560,6 +566,11 @@ Connection: keep-alive
         "type": "BachelorDegree",
         "name": "Bachelor of Science and Arts"
       }
+    },
+    "refreshService": {
+      "type": "AutoRefresh2021",
+      "url": "https://example.edu/workflows/refresh-degree",
+      "validAfter": "2027-03-14T19:23:24Z"
     },
     "proof": {
       "type": "Ed25519Signature2020",
