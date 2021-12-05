@@ -127,6 +127,18 @@
     display: block;
     background-color: #ff9;
   }
+  .algorithm ol {
+    counter-reset: numsection;
+    list-style-type: none;
+  }
+  .algorithm ol>li {
+    margin: 0.5em 0;
+  }
+  .algorithm ol>li:before {
+    font-weight: bold;
+    counter-increment: numsection;
+    content: counters(numsection, ".") ") ";
+  }
   </style>
 </head>
 <body data-cite="infra rfc3986">
@@ -235,13 +247,6 @@ The `type` property MUST be either `ManualRefresh2021` or
           </td>
         </tr>
         <tr>
-          <td>refreshPayload</td>
-          <td>
-An optional JSON payload that is expected to be HTTP POSTed to the URL specified
-by `id`.
-          </td>
-        </tr>
-        <tr>
           <td>validAfter</td>
           <td>
 An optional [[XMLSCHEMA11-2]] datetime value that specifies the earliest moment
@@ -331,7 +336,43 @@ will initiate a presentation request using the Verifiable Credentials API
     <h1>Refresh Protocol</h1>
 
     <p>
+This section details the protocols that can be used to refresh a credential.
     </p>
+
+    <section class="algorithm">
+      <h2>ManualRefresh2021 Protocol</h2>
+
+      <p>
+The ManualRefresh2021 protocol is used when an <a>issuer</a> uses a refresh
+prodedure that is non-automatable or requires an interactive exchange with the
+<a>holder</a>. The manual refresh protocol consists of executing the following
+steps:
+      </p>
+
+      <ol>
+        <li>
+The <a>holder</a> software extracts the `refreshService.type`,
+`refreshService.url`, and `refreshService.validAfter` properties and saves
+them as <em>type</em>, <em>url</em>, and <em>validAfter</em>, respectively.
+        </li>
+        <li>
+If <em>type</em> does not equal `ManualRefresh2021`,
+raise an `INVALID_REFRESH_ALGORITHM` exception.
+        </li>
+        <li>
+If <em>validAfter</em> is defined, but expresses a datetime that is later
+than the current datetime, raise a `REFRESH_NOT_ALLOWED_YET` exception.
+        </li>
+        <li>
+If <em>url</em> is not defined, raise an `INVALID_URL` exception.
+        </li>
+        <li>
+Open an application, such as a Web browser, that is capable of handling
+<em>url</em> and pass the value to be opened to the application.
+        </li>
+      </ol>
+
+    </section>
   </section>
 
 </body>
