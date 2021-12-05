@@ -372,7 +372,60 @@ Open an application, such as a Web browser, that is capable of handling
         </li>
       </ol>
 
+      <p>
+The example below demonstrates what an HTTP client would perform after the
+final step above:
+      </p>
+
+      <pre class="example"
+        title="Step 1 (request to issuer): Initiate manual refresh interaction">
+GET /refresh/3732 HTTP/1.1
+Host: example.edu
+Accept: text/html, */*
+Accept-Encoding: gzip, deflate
+      </pre>
+
     </section>
+
+    <section class="algorithm">
+      <h2>AutoRefresh2021 Protocol</h2>
+
+      <p>
+The AutoRefresh2021 protocol is used when an <a>issuer</a> uses a refresh
+prodedure that does not require an interactive exchange with the
+<a>holder</a> and is therefore, fully automatable. The auto refresh protocol
+consists of executing the following steps:
+      </p>
+
+      <ol>
+        <li>
+The <a>holder</a> software extracts the `refreshService.type`,
+`refreshService.url`, and `refreshService.validAfter` properties and saves
+them as <em>type</em>, <em>url</em>, and <em>validAfter</em>, respectively.
+        </li>
+        <li>
+If <em>type</em> does not equal `AutoRefresh2021`,
+raise an `INVALID_REFRESH_ALGORITHM` exception.
+        </li>
+        <li>
+If <em>validAfter</em> is defined, but expresses a datetime that is later
+than the current datetime, raise a `REFRESH_NOT_ALLOWED_YET` exception.
+        </li>
+        <li>
+If <em>url</em> is not defined, raise an `INVALID_URL` exception.
+        </li>
+        <li>
+Use an HTTP client to perform an HTTP GET on <em>url</em>. The response
+from the server MUST be a Verifiable Presentation Request [[VP-REQUEST]] as
+defined by the
+<a href="https://w3c-ccg.github.io/vc-api/#presenting">Presenting</a>
+section of the [[VC-API]] specification.
+        </li>
+      </ol>
+
+
+    </section>
+
   </section>
 
 </body>

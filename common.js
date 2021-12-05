@@ -15,6 +15,15 @@ var ccg = {
         "TBD"
       ],
       publisher: "W3C Credentials Community Group"
+    },
+    "VP-REQUEST": {
+      title: "Verifiable Presentation Request",
+      date: "2021",
+      href: "https://w3c-ccg.github.io/vp-request-spec/",
+      authors: [
+        "TBD"
+      ],
+      publisher: "W3C Credentials Community Group"
     }
   }
 };
