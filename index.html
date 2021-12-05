@@ -51,7 +51,7 @@
 
     // extend the bibliography entries
     localBiblio: ccg.localBiblio,
-    xref: "web-platform",
+    xref: ["web-platform", "vc-data-model"],
     github: {
       repoURL: "https://github.com/digitalbazaar/vc-refresh-2021/",
       branch: "main"
@@ -133,12 +133,15 @@
   <section id='abstract'>
 
     <p>
-TBD
+Verifiable Credentials can expire. It is useful to provide instructions on
+refreshing the credential for the times when expiration is imminent or has
+already occurred. The refresh can be performed manually or, with the prior
+consent of the credential holder, automatically.
     </p>
     <p>
-This document specifies the DID syntax, a common data model, core properties,
-serialized representations, DID operations, and an explanation of the process
-of resolving DIDs to the resources that they represent.
+This document specifies manual and automatic refresh mechanisms that  Verifiable
+Credential issuers can utilize to enhance the experience when using their
+credentials.
     </p>
   </section>
 
@@ -156,57 +159,12 @@ to <a href="mailto:public-credentials@w3.org">public-credentials@w3.org</a> (
   <section class="informative">
     <h1>Introduction</h1>
     <p>
+<a>Verifiable Credentials</a> can expire. It is useful to provide instructions on
+refreshing the credential for the times when expiration is imminent or has
+already occurred. The refresh can be performed manually or, with the prior
+consent of the credential <a>holder</a>, automatically.
     </p>
 
-    <section class="informative">
-      <h2>A Simple Example</h2>
-
-      <p>
-      </p>
-
-      <figure id="parts-of-a-did">
-        <img style="margin: auto; display: block; width: 75%;"
-          src="diagrams/simple-example.svg" alt="
-        " >
-        <figcaption>
-A simple example of a refresh flow.
-        </figcaption>
-      </figure>
-
-      <p>
-      </p>
-
-    </section>
-
-    <section class="informative">
-      <h2>Design Goals</h2>
-
-      <p>
-      </p>
-
-      <table class="simple">
-        <thead>
-          <tr>
-            <th>
-Goal
-            </th>
-            <th>
-Description
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr>
-            <td>
-X
-            </td>
-            <td>
-Y
-            </td>
-          </tr>
-        </tbody>
-      </table>
     </section>
 
     <section id="conformance">
@@ -243,7 +201,130 @@ A <dfn>conforming refresh server</dfn> is ...
     <h1>Refresh Data Model</h1>
 
     <p>
+This specification utilizes the Verifiable Credentials data model
+[[VC-DATA-MODEL]] and the
+<a href="https://www.w3.org/TR/vc-data-model/#refreshing">Refreshing feature</a>
+defined in that specification.
     </p>
+
+    <p>
+The refresh data model in this specification is expressed via the
+<code>refreshService</code> property in a Verifiable Credential. The table
+below provides the structure of the refresh service description.
+    </p>
+
+    <table class="simple">
+      <thead>
+        <tr>
+          <th style="white-space: nowrap">Property</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>url</td>
+          <td>
+A mandatory URL that MUST be used to initiate a credential refresh.
+          </td>
+        </tr>
+        <tr>
+          <td>type</td>
+          <td>
+The `type` property MUST be either `ManualRefresh2021` or
+`AutomaticRefresh2021`.
+          </td>
+        </tr>
+        <tr>
+          <td>refreshPayload</td>
+          <td>
+An optional JSON payload that is expected to be HTTP POSTed to the URL specified
+by `id`.
+          </td>
+        </tr>
+        <tr>
+          <td>validAfter</td>
+          <td>
+An optional [[XMLSCHEMA11-2]] datetime value that specifies the earliest moment
+in time that a refresh can be performed.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+The example below demonstrates the use of the data model described in this
+section to specify a manual refresh service:
+    </p>
+
+    <pre class="example nohighlight"
+      title="Verifiable Credential specifying a manual credential refresh">
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://www.w3.org/2018/credentials/examples/v1",
+    "https://w3id.org/vc-refresh-2021/v1"
+  ],
+  "id": "http://example.edu/credentials/3732",
+  "type": ["VerifiableCredential", "UniversityDegreeCredential"],
+  "issuer": "https://example.edu/issuers/14",
+  "issuanceDate": "2010-01-01T19:23:24Z",
+  "expirationDate": "2022-01-01T19:23:24Z",
+  "credentialSubject": {
+    "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
+    "degree": {
+      "type": "BachelorDegree",
+      "name": "Bachelor of Science and Arts"
+    }
+  },
+  <span class="highlight">"refreshService": {
+    "type": "ManualRefresh2021",
+    "url": "https://example.edu/refresh/3732",
+    "validAfter": "2021-09-01T19:23:24Z"
+  }</span>
+}
+    </pre>
+
+    <p>
+The example below demonstrates the use of the data model described in this
+section to specify an automatic refresh service:
+    </p>
+
+    <pre class="example nohighlight"
+      title="Verifiable Credential specifying a manual credential refresh">
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://www.w3.org/2018/credentials/examples/v1",
+    "https://w3id.org/vc-refresh-2021/v1"
+  ],
+  "id": "http://example.edu/credentials/3732",
+  "type": ["VerifiableCredential", "UniversityDegreeCredential"],
+  "issuer": "https://example.edu/issuers/14",
+  "issuanceDate": "2010-01-01T19:23:24Z",
+  "expirationDate": "2022-01-01T19:23:24Z",
+  "credentialSubject": {
+    "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
+    "degree": {
+      "type": "BachelorDegree",
+      "name": "Bachelor of Science and Arts"
+    }
+  },
+  <span class="highlight">"refreshService": {
+    "type": "AutoRefresh2021",
+    "url": "https://example.edu/workflows/refresh-degree",
+    "validAfter": "2021-09-01T19:23:24Z"
+  }</span>
+}
+    </pre>
+
+    <p>
+Performing an HTTP GET on the `https://example.edu/workflows/refresh-degree`
+will initiate a presentation request using the Verifiable Credentials API
+[[VC-API]].
+    </p>
+
+  </section>
+
   </section>
 
   <section>
