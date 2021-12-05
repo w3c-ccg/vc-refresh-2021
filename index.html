@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Verifiable Credential Refresh 2021</title>
+  <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+  <!--
+    === NOTA BENE ===
+    For the three scripts below, if your spec resides on dev.w3 you can check
+    them out in the same tree and use relative links so that they'll work
+    offline.
+  -->
+
+  <script class="remove"
+    src="https://unpkg.com/browse/jquery/dist/jquery.min.js"></script>
+  <script class="remove"
+    src="https://www.w3.org/Tools/respec/respec-w3c"></script>
+  <script class="removeOnSave"
+    src="https://unpkg.com/reqlist/lib/reqlist.js"></script>
+  <link class="removeOnSave" rel="stylesheet" type="text/css"
+    href="https://unpkg.com/reqlist/lib/reqlist.css" />
+
+  <script class='remove' src="./common.js"></script>
+  <script class="remove" type="text/javascript">
+  var respecConfig = {
+    // the W3C WG and public mailing list
+    group: "credentials",
+    wgPublicList: "public-credentials",
+
+    // the specification's short name, as in http://www.w3.org/TR/short-name/
+    shortName: "vc-refresh-2021",
+
+    // specification status (e.g., WD, LCWD, NOTE, etc.). If in doubt use ED.
+    specStatus: "CG-DRAFT",
+
+    // Editor's Draft URL
+    edDraftURI: "https://digitalbazaar.github.io/vc-refresh-2021/",
+
+    // subtitle for the spec
+    subtitle: "A data model and protocol for refreshing Verifiable Credentials",
+
+    // if you wish the publication date to be other than today, set this
+    //publishDate:  "2021-08-03",
+
+    // previously published draft, uncomment this and set its
+    // YYYY-MM-DD date and its maturity status
+    //previousPublishDate:  "2021-06-15",
+    //previousMaturity:  "CR",
+
+    // automatically allow term pluralization
+    pluralize: true,
+
+    // extend the bibliography entries
+    localBiblio: ccg.localBiblio,
+    xref: "web-platform",
+    github: {
+      repoURL: "https://github.com/digitalbazaar/vc-refresh-2021/",
+      branch: "main"
+    },
+    includePermalinks: false,
+
+    // Uncomment these to use the respec extension that generates a list of
+    //   normative statements:
+    preProcess: [/*prepare_reqlist*/],
+    postProcess: [/*add_reqlist_button*/, restrictRefs],
+
+    // list of specification editors
+    editors: [
+      {
+        name: "Manu Sporny",
+        url: "http://manu.sporny.org/",
+        company: "Digital Bazaar",
+        companyURL: "https://digitalbazaar.com/",
+        w3cid: 41758
+      }
+    ],
+
+    // list of specification authors
+    authors: [{
+        name: "Manu Sporny",
+        url: "http://manu.sporny.org/",
+        company: "Digital Bazaar",
+        companyURL: "https://digitalbazaar.com/",
+        w3cid: 41758
+      },
+      {
+        name: "Dmitri Zagidulin",
+        url: "https://github.com/dmitrizagidulin",
+        company: "Digital Bazaar",
+        companyURL: "https://digitalbazaar.com/"
+      }
+    ],
+    otherLinks: [{
+      key: "Related Documents",
+      data: [{
+        value: "Verifiable Credentials Data Model",
+        href: "https://www.w3.org/TR/vc-data-model/"
+      }, {
+        value: "Verifiable Credentials API",
+        href: "https://w3c-ccg.github.io/vc-api/"
+      }]
+    }]
+    };
+  </script>
+  <style>
+  pre .highlight {
+    font-weight: bold;
+    color: green;
+  }
+  pre .comment {
+    color: SteelBlue;
+    user-select: none;
+  }
+  code a[href] {
+    color: inherit;
+    border-bottom: none;
+  }
+  code a[href]:hover {
+    border-bottom: 1px solid #c63501;
+  }
+  table.column-width-50 td {
+    width: 50%;
+  }
+  .longdesc {
+    display: none;
+  }
+  .longdesc:target {
+    display: block;
+    background-color: #ff9;
+  }
+  </style>
+</head>
+<body data-cite="infra rfc3986">
+  <section id='abstract'>
+
+    <p>
+TBD
+    </p>
+    <p>
+This document specifies the DID syntax, a common data model, core properties,
+serialized representations, DID operations, and an explanation of the process
+of resolving DIDs to the resources that they represent.
+    </p>
+  </section>
+
+  <section id='sotd'>
+    <p>
+Comments regarding this document are welcome. Please file issues
+directly on <a href="https://github.com/digitalbazaar/vc-refresh-2021/issues/">GitHub</a>,
+or send them
+to <a href="mailto:public-credentials@w3.org">public-credentials@w3.org</a> (
+<a href="mailto:public-credentials-request@w3.org?subject=subscribe">subscribe</a>,
+<a href="https://lists.w3.org/Archives/Public/public-credentials/">archives</a>).
+    </p>
+  </section>
+
+  <section class="informative">
+    <h1>Introduction</h1>
+    <p>
+    </p>
+
+    <section class="informative">
+      <h2>A Simple Example</h2>
+
+      <p>
+      </p>
+
+      <figure id="parts-of-a-did">
+        <img style="margin: auto; display: block; width: 75%;"
+          src="diagrams/simple-example.svg" alt="
+        " >
+        <figcaption>
+A simple example of a refresh flow.
+        </figcaption>
+      </figure>
+
+      <p>
+      </p>
+
+    </section>
+
+    <section class="informative">
+      <h2>Design Goals</h2>
+
+      <p>
+      </p>
+
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>
+Goal
+            </th>
+            <th>
+Description
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>
+X
+            </td>
+            <td>
+Y
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="conformance">
+
+      <p>
+This document contains examples that contain JSON and JSON-LD content.
+Some of these examples contain characters that are invalid, such as inline
+comments (<code>//</code>) and the use of ellipsis (<code>...</code>) to denote
+information that adds little value to the example. Implementers are cautioned to
+remove this content if they desire to use the information as valid JSON
+or JSON-LD.
+      </p>
+
+     <p>
+A <dfn>conforming refresh client</dfn> is ...
+     </p>
+
+      <p>
+A <dfn>conforming refresh server</dfn> is ...
+      </p>
+
+    </section>
+
+  </section>
+
+  <section class="informative">
+    <h2>Terminology</h2>
+
+    <div data-include="terms.html">
+    </div>
+  </section>
+
+  <section>
+    <h1>Refresh Data Model</h1>
+
+    <p>
+    </p>
+  </section>
+
+  <section>
+    <h1>Refresh Protocol</h1>
+
+    <p>
+    </p>
+  </section>
+
+</body>
+</html>
