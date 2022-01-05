@@ -177,8 +177,6 @@ already occurred. The refresh can be performed manually or, with the prior
 consent of the credential <a>holder</a>, automatically.
     </p>
 
-    </section>
-
     <section id="conformance">
 
       <p>
@@ -200,13 +198,12 @@ A <dfn>conforming refresh server</dfn> is ...
 
     </section>
 
-  </section>
+    <section class="informative">
+      <h2>Terminology</h2>
 
-  <section class="informative">
-    <h2>Terminology</h2>
-
-    <div data-include="terms.html">
-    </div>
+      <div data-include="terms.html">
+      </div>
+    </section>
   </section>
 
   <section>
@@ -369,7 +366,7 @@ raise an `INVALID_REFRESH_ALGORITHM` exception.
         </li>
         <li>
 If <em>validAfter</em> is defined, but expresses a datetime that is later
-than the current datetime, raise a `REFRESH_NOT_ALLOWED_YET` exception.
+than the current datetime, raise a `REFRESH_NOT_ALLOWED` exception.
         </li>
         <li>
 If <em>url</em> is not defined, raise an `INVALID_URL` exception.
@@ -408,8 +405,9 @@ consists of executing the following steps:
       <ol>
         <li>
 The <a>holder</a> software extracts the `refreshService.type`,
-`refreshService.url`, and `refreshService.validAfter` properties and saves
-them as <em>type</em>, <em>url</em>, and <em>validAfter</em>, respectively.
+`refreshService.url`, `refreshService.validAfter`, and
+`refreshService.validUntil` properties and saves them as <em>type</em>,
+<em>url</em>, <em>validAfter</em>,  and <em>validUntil</em>, respectively.
         </li>
         <li>
 If <em>type</em> does not equal `AutoRefresh2021`,
@@ -417,7 +415,11 @@ raise an `INVALID_REFRESH_ALGORITHM` exception.
         </li>
         <li>
 If <em>validAfter</em> is defined, but expresses a datetime that is later
-than the current datetime, raise a `REFRESH_NOT_ALLOWED_YET` exception.
+than the current datetime, raise a `REFRESH_NOT_ALLOWED` exception.
+        </li>
+        <li>
+If <em>validUntil</em> is defined, but expresses a datetime that is before
+the current datetime, raise a `REFRESH_NOT_ALLOWED` exception.
         </li>
         <li>
 If <em>url</em> is not defined, raise an `INVALID_URL` exception.
@@ -437,7 +439,7 @@ above is executed:
       </p>
 
       <pre class="example"
-        title="Step 1 (request to issuer): Initiate Verifiable Presentation Request">
+        title="Step 1 (request to issuer): Initiate degree refresh workflow">
 GET /workflows/refresh-degree HTTP/1.1
 Host: example.edu
 Content-Type: application/json
@@ -452,31 +454,48 @@ Date: Fri, 14 Jun 2022 18:37:12 GMT
 Connection: keep-alive
 
 {
-  "query": [{
-    "type": "DIDAuth"
-  }, {
-    "type": "QueryByExample",
-    "credentialQuery": {
-      "reason": "We need to see your existing University Degree credential.",
-      "example": {
-        "@context": [
-          "https://www.w3.org/2018/credentials/v1",
-          "https://www.w3.org/2018/credentials/examples/v1"
-        ],
-        "type": "UniversityDegreeCredential"
+  "verifiablePresentationRequest": {
+    "query": [{
+        "type": "DIDAuth"
+      }, {
+        "type": "QueryByExample",
+        "credentialQuery": {
+          "reason": "We need to see your existing University Degree credential.",
+          "example": {
+            "@context": [
+              "https://www.w3.org/2018/credentials/v1",
+              "https://www.w3.org/2018/credentials/examples/v1"
+            ],
+            "type": "UniversityDegreeCredential"
+          }
+        }
+      }],
+      "challenge": "3182bdea-63d9-11ea-b6de-3b7c1404d57f",
+      "domain": "example.edu",
+      "interact": {
+        "service": [{
+          "type": "VcApiPresentationService2021",
+          "serviceEndpoint": "https://example.edu/active-flows/123456"
+        }]
       }
     }
-  }],
-  "challenge": "3182bdea-63d9-11ea-b6de-3b7c1404d57f",
-  "domain": "example.edu",
-  "interact": {
-    "service": [{
-      "type": "VcApiPresentationService2021",
-      "serviceEndpoint": "https://example.edu/active-flows/123456"
-    }]
   }
 }
       </pre>
+
+      <p class="note">
+While the example above utilizes a Verifiable Presentation Request, other
+types of equivalent presentation request formats, such as WACI/PeX, can be
+utilized (simultaneously or alternatively) based on the presentation request
+formats that are supported by the Issuer.
+      </p>
+
+      <p class="issue" title="Demonstrate usage of WACI/PeX?">
+We should make it clear that Issuers can choose to use one or more presentation
+request formats simultaneously in order to maximize the chances that a given
+client will be able to respond to a refresh workflow. This should probably be
+more clearly stated in the VC-API specification.
+      </p>
 
       <pre class="example"
         title="Step 3 (presentation to issuer): Provide Verifiable Presentation">
@@ -533,7 +552,7 @@ Accept-Encoding: gzip, deflate
     "type": "Ed25519Signature2020",
     "created": "2022-06-15T16:37:12Z",
     "verificationMethod": "did:example:76e12ec712ebc6f1c221ebfeb1f#key-1",
-    "proofPurpose": "assertionMethod",
+    "proofPurpose": "authentication",
     "challenge": "3182bdea-63d9-11ea-b6de-3b7c1404d57f",
     "domain": "example.edu",
     "proofValue": "z4aU6NSpnCvnjJqzAPw3cqJ1LKoWimEWxKz7StJYzwaZE2a3QAuK8vcq
@@ -578,7 +597,8 @@ Connection: keep-alive
     "refreshService": {
       "type": "AutoRefresh2021",
       "url": "https://example.edu/workflows/refresh-degree",
-      "validAfter": "2027-03-14T19:23:24Z"
+      "validAfter": "2027-03-14T19:23:24Z",
+      "validUntil": "2027-07-14T19:23:24Z"
     },
     "proof": {
       "type": "Ed25519Signature2020",
