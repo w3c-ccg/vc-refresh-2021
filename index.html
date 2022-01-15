@@ -242,8 +242,8 @@ A mandatory URL that MUST be used to initiate a credential refresh.
         <tr>
           <td>type</td>
           <td>
-The `type` property MUST be either `ManualRefresh2021` or
-`AutomaticRefresh2021`.
+The `type` property MUST be either `MediatedRefresh2021` or
+`UnmediatedRefresh2021`.
           </td>
         </tr>
         <tr>
@@ -289,7 +289,7 @@ section to specify a manual refresh service:
     }
   },
   <span class="highlight">"refreshService": {
-    "type": "ManualRefresh2021",
+    "type": "MediatedRefresh2021",
     "url": "https://example.edu/refresh/3732",
     "validAfter": "2021-09-01T19:23:24Z"
   }</span>
@@ -322,7 +322,7 @@ section to specify an automatic refresh service:
     }
   },
   <span class="highlight">"refreshService": {
-    "type": "AutoRefresh2021",
+    "type": "UnmediatedRefresh2021",
     "url": "https://example.edu/workflows/refresh-degree",
     "validAfter": "2021-09-01T19:23:24Z",
     "validUntil": "2022-02-01T19:23:24Z"
@@ -352,10 +352,10 @@ following general pattern.
     <img src="diagrams/refresh-flow.svg">
 
     <section class="algorithm">
-      <h2>ManualRefresh2021 Protocol</h2>
+      <h2>MediatedRefresh2021 Protocol</h2>
 
       <p>
-The ManualRefresh2021 protocol is used when an <a>issuer</a> uses a refresh
+The MediatedRefresh2021 protocol is used when an <a>issuer</a> uses a refresh
 prodedure that is non-automatable or requires an interactive exchange with the
 <a>holder</a>. The manual refresh protocol consists of executing the following
 steps:
@@ -368,7 +368,7 @@ The <a>holder</a> software extracts the `refreshService.type`,
 them as <em>type</em>, <em>url</em>, and <em>validAfter</em>, respectively.
         </li>
         <li>
-If <em>type</em> does not equal `ManualRefresh2021`,
+If <em>type</em> does not equal `MediatedRefresh2021`,
 raise an `INVALID_REFRESH_ALGORITHM` exception.
         </li>
         <li>
@@ -400,10 +400,10 @@ Accept-Encoding: gzip, deflate
     </section>
 
     <section class="algorithm">
-      <h2>AutoRefresh2021 Protocol</h2>
+      <h2>UnmediatedRefresh2021 Protocol</h2>
 
       <p>
-The AutoRefresh2021 protocol is used when an <a>issuer</a> uses a refresh
+The UnmediatedRefresh2021 protocol is used when an <a>issuer</a> uses a refresh
 prodedure that does not require an interactive exchange with the
 <a>holder</a> and is therefore, fully automatable. The auto refresh protocol
 consists of executing the following steps:
@@ -417,7 +417,7 @@ The <a>holder</a> software extracts the `refreshService.type`,
 <em>url</em>, <em>validAfter</em>,  and <em>validUntil</em>, respectively.
         </li>
         <li>
-If <em>type</em> does not equal `AutoRefresh2021`,
+If <em>type</em> does not equal `UnmediatedRefresh2021`,
 raise an `INVALID_REFRESH_ALGORITHM` exception.
         </li>
         <li>
@@ -481,7 +481,7 @@ Connection: keep-alive
       "domain": "example.edu",
       "interact": {
         "service": [{
-          "type": "VcApiPresentationService2021",
+          "type": "UnmediatedHttpPresentationService2021",
           "serviceEndpoint": "https://example.edu/active-flows/123456"
         }]
       }
@@ -535,7 +535,7 @@ Accept-Encoding: gzip, deflate
       }
     },
     "refreshService": {
-      "type": "AutoRefresh2021",
+      "type": "UnmediatedRefresh2021",
       "url": "https://example.edu/workflows/refresh-degree",
       "validAfter": "2021-09-01T19:23:24Z"
     },
@@ -595,7 +595,7 @@ Connection: keep-alive
       }
     },
     "refreshService": {
-      "type": "AutoRefresh2021",
+      "type": "UnmediatedRefresh2021",
       "url": "https://example.edu/workflows/refresh-degree",
       "validAfter": "2027-03-14T19:23:24Z",
       "validUntil": "2027-07-14T19:23:24Z"
