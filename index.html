@@ -363,9 +363,10 @@ steps:
 
       <ol>
         <li>
-The <a>holder</a> software extracts the `refreshService.type`,
-`refreshService.url`, and `refreshService.validAfter` properties and saves
-them as <em>type</em>, <em>url</em>, and <em>validAfter</em>, respectively.
+The <a>holder</a> software extracts the `refreshService.type`, 
+`refreshService.url`, `refreshService.validAfter`, and
+`refreshService.validUntil` properties and saves
+them as <em>type</em>, <em>url</em>, <em>validAfter</em>, and <em>validUntil</em>, respectively.
         </li>
         <li>
 If <em>type</em> does not equal `MediatedRefresh2021`,
@@ -374,6 +375,10 @@ raise an `INVALID_REFRESH_ALGORITHM` exception.
         <li>
 If <em>validAfter</em> is defined, but expresses a datetime that is later
 than the current datetime, raise a `REFRESH_NOT_ALLOWED` exception.
+        </li>
+        <li>
+If <em>validUntil</em> is defined, but expresses a datetime that is before
+the current datetime, raise a `REFRESH_NOT_ALLOWED` exception.
         </li>
         <li>
 If <em>url</em> is not defined, raise an `INVALID_URL` exception.
@@ -411,7 +416,7 @@ consists of executing the following steps:
 
       <ol>
         <li>
-The <a>holder</a> software extracts the `refreshService.type`,
+The <a>holder</a> software extracts the `refreshService.type`, 
 `refreshService.url`, `refreshService.validAfter`, and
 `refreshService.validUntil` properties and saves them as <em>type</em>,
 <em>url</em>, <em>validAfter</em>,  and <em>validUntil</em>, respectively.
