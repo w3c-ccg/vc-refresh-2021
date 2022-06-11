@@ -243,11 +243,11 @@ A mandatory URL that MUST be used to initiate a credential refresh.
           <td>type</td>
           <td>
 The `type` property MUST be either `MediatedRefresh2021` or
-`UnmediatedRefresh2021`.
+`VerifiableCredentialRefreshService2021`.
           </td>
         </tr>
         <tr>
-          <td>validAfter</td>
+          <td>validFrom</td>
           <td>
 An optional [[XMLSCHEMA11-2]] datetime value that specifies the earliest moment
 in time that a refresh can be performed.
@@ -291,7 +291,7 @@ section to specify a manual refresh service:
   <span class="highlight">"refreshService": {
     "type": "MediatedRefresh2021",
     "url": "https://example.edu/refresh/3732",
-    "validAfter": "2021-09-01T19:23:24Z"
+    "validFrom": "2021-09-01T19:23:24Z"
   }</span>
 }
     </pre>
@@ -322,9 +322,9 @@ section to specify an automatic refresh service:
     }
   },
   <span class="highlight">"refreshService": {
-    "type": "UnmediatedRefresh2021",
+    "type": "VerifiableCredentialRefreshService2021",
     "url": "https://example.edu/workflows/refresh-degree",
-    "validAfter": "2021-09-01T19:23:24Z",
+    "validFrom": "2021-09-01T19:23:24Z",
     "validUntil": "2022-02-01T19:23:24Z"
   }</span>
 }
@@ -364,15 +364,15 @@ steps:
       <ol>
         <li>
 The <a>holder</a> software extracts the `refreshService.type`,
-`refreshService.url`, and `refreshService.validAfter` properties and saves
-them as <em>type</em>, <em>url</em>, and <em>validAfter</em>, respectively.
+`refreshService.url`, and `refreshService.validFrom` properties and saves
+them as <em>type</em>, <em>url</em>, and <em>validFrom</em>, respectively.
         </li>
         <li>
 If <em>type</em> does not equal `MediatedRefresh2021`,
 raise an `INVALID_REFRESH_ALGORITHM` exception.
         </li>
         <li>
-If <em>validAfter</em> is defined, but expresses a datetime that is later
+If <em>validFrom</em> is defined, but expresses a datetime that is later
 than the current datetime, raise a `REFRESH_NOT_ALLOWED` exception.
         </li>
         <li>
@@ -400,10 +400,10 @@ Accept-Encoding: gzip, deflate
     </section>
 
     <section class="algorithm">
-      <h2>UnmediatedRefresh2021 Protocol</h2>
+      <h2>VerifiableCredentialRefreshService2021 Protocol</h2>
 
       <p>
-The UnmediatedRefresh2021 protocol is used when an <a>issuer</a> uses a refresh
+The VerifiableCredentialRefreshService2021 protocol is used when an <a>issuer</a> uses a refresh
 prodedure that does not require an interactive exchange with the
 <a>holder</a> and is therefore, fully automatable. The auto refresh protocol
 consists of executing the following steps:
@@ -412,16 +412,16 @@ consists of executing the following steps:
       <ol>
         <li>
 The <a>holder</a> software extracts the `refreshService.type`,
-`refreshService.url`, `refreshService.validAfter`, and
+`refreshService.url`, `refreshService.validFrom`, and
 `refreshService.validUntil` properties and saves them as <em>type</em>,
-<em>url</em>, <em>validAfter</em>,  and <em>validUntil</em>, respectively.
+<em>url</em>, <em>validFrom</em>,  and <em>validUntil</em>, respectively.
         </li>
         <li>
-If <em>type</em> does not equal `UnmediatedRefresh2021`,
+If <em>type</em> does not equal `VerifiableCredentialRefreshService2021`,
 raise an `INVALID_REFRESH_ALGORITHM` exception.
         </li>
         <li>
-If <em>validAfter</em> is defined, but expresses a datetime that is later
+If <em>validFrom</em> is defined, but expresses a datetime that is later
 than the current datetime, raise a `REFRESH_NOT_ALLOWED` exception.
         </li>
         <li>
@@ -481,7 +481,7 @@ Connection: keep-alive
       "domain": "example.edu",
       "interact": {
         "service": [{
-          "type": "UnmediatedHttpPresentationService2021",
+          "type": "VerifiableCredentialRefreshService2021",
           "serviceEndpoint": "https://example.edu/active-flows/123456"
         }]
       }
@@ -535,9 +535,9 @@ Accept-Encoding: gzip, deflate
       }
     },
     "refreshService": {
-      "type": "UnmediatedRefresh2021",
+      "type": "VerifiableCredentialRefreshService2021",
       "url": "https://example.edu/workflows/refresh-degree",
-      "validAfter": "2021-09-01T19:23:24Z"
+      "validFrom": "2021-09-01T19:23:24Z"
     },
     "proof": {
       "type": "Ed25519Signature2020",
@@ -595,9 +595,9 @@ Connection: keep-alive
       }
     },
     "refreshService": {
-      "type": "UnmediatedRefresh2021",
+      "type": "VerifiableCredentialRefreshService2021",
       "url": "https://example.edu/workflows/refresh-degree",
-      "validAfter": "2027-03-14T19:23:24Z",
+      "validFrom": "2027-03-14T19:23:24Z",
       "validUntil": "2027-07-14T19:23:24Z"
     },
     "proof": {
