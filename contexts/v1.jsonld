@@ -1,0 +1,51 @@
+{
+  "@context": {
+    "@protected": true,
+
+    "VerifiableCredentialRefreshService2021": {
+      "@id": "https://w3id.org/vc-refresh-2021#VerifiableCredentialRefreshService2021",
+      "@context": {
+        "@protected": true,
+
+        "id": "@id",
+        "type": "@type",
+
+        "url": {
+          "@id": "https://schema.org/url",
+          "@type": "@id"
+        },
+        "validFrom": {
+          "@id": "https://www.w3.org/2018/credentials#validFrom",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "validUntil": {
+          "@id": "https://www.w3.org/2018/credentials#validUntil",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        }
+      }
+    },
+
+    "MediatedRefreshService2021": {
+      "@id": "https://w3id.org/vc-refresh-2021#MediatedRefreshService2021",
+      "@context": {
+        "@protected": true,
+
+        "id": "@id",
+        "type": "@type",
+
+        "url": {
+          "@id": "https://schema.org/url",
+          "@type": "@id"
+        },
+        "validFrom": {
+          "@id": "https://www.w3.org/2018/credentials#validFrom",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "validUntil": {
+          "@id": "https://www.w3.org/2018/credentials#validUntil",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        }
+      }
+    }
+  }
+}

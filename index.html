@@ -242,7 +242,7 @@ A mandatory URL that MUST be used to initiate a credential refresh.
         <tr>
           <td>type</td>
           <td>
-The `type` property MUST be either `MediatedRefresh2021` or
+The `type` property MUST be either `MediatedRefreshService2021` or
 `VerifiableCredentialRefreshService2021`.
           </td>
         </tr>
@@ -289,7 +289,7 @@ section to specify a manual refresh service:
     }
   },
   <span class="highlight">"refreshService": {
-    "type": "MediatedRefresh2021",
+    "type": "MediatedRefreshService2021",
     "url": "https://example.edu/refresh/3732",
     "validFrom": "2021-09-01T19:23:24Z"
   }</span>
@@ -352,10 +352,10 @@ following general pattern.
     <img src="diagrams/refresh-flow.svg">
 
     <section class="algorithm">
-      <h2>MediatedRefresh2021 Protocol</h2>
+      <h2>MediatedRefreshService2021 Protocol</h2>
 
       <p>
-The MediatedRefresh2021 protocol is used when an <a>issuer</a> uses a refresh
+The MediatedRefreshService2021 protocol is used when an <a>issuer</a> uses a refresh
 prodedure that is non-automatable or requires an interactive exchange with the
 <a>holder</a>. The manual refresh protocol consists of executing the following
 steps:
@@ -368,7 +368,7 @@ The <a>holder</a> software extracts the `refreshService.type`,
 them as <em>type</em>, <em>url</em>, and <em>validFrom</em>, respectively.
         </li>
         <li>
-If <em>type</em> does not equal `MediatedRefresh2021`,
+If <em>type</em> does not equal `MediatedRefreshService2021`,
 raise an `INVALID_REFRESH_ALGORITHM` exception.
         </li>
         <li>
