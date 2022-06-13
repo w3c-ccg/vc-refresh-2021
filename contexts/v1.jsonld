@@ -3,7 +3,7 @@
     "@protected": true,
 
     "VerifiableCredentialRefreshService2021": {
-      "@id": "https://w3id.org/vc-refresh-2021#VerifiableCredentialRefreshService2021",
+      "@id": "https://w3id.org/vc-refresh-service#VerifiableCredentialRefreshService2021",
       "@context": {
         "@protected": true,
 
@@ -26,7 +26,7 @@
     },
 
     "MediatedRefreshService2021": {
-      "@id": "https://w3id.org/vc-refresh-2021#MediatedRefreshService2021",
+      "@id": "https://w3id.org/vc-refresh-service#MediatedRefreshService2021",
       "@context": {
         "@protected": true,
 
