@@ -14,6 +14,10 @@
           "@id": "https://schema.org/url",
           "@type": "@id"
         },
+        "refreshToken": {
+          "@id": "https://w3id.org/vc-refresh-service#refreshToken",
+          "@type": "https://w3id.org/security#multibase"
+        },
         "validFrom": {
           "@id": "https://www.w3.org/2018/credentials#validFrom",
           "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
